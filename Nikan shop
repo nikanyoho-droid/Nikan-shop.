@@ -3,17 +3,17 @@
 import json
 default_users = {
     "niki": {
-        "password": "niki cow",
+        "password": "1234567890123",
         "wallet": 0,
         "cart": []
     },
     "nasrin": {
-        "password": "nasrin pretty",
+        "password": "123456789012,
         "wallet": 0,
         "cart": []
     },
     "nikan": {
-        "password": "nikan123",
+        "password": "12345678901",
         "wallet": 0,
         "cart": []
     }
