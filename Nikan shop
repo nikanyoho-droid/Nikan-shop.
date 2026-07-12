@@ -1,0 +1,295 @@
+############# function #############
+# Nikan Shop
+import json
+default_users = {
+    "niki": {
+        "password": "niki cow",
+        "wallet": 0,
+        "cart": []
+    },
+    "nasrin": {
+        "password": "nasrin pretty",
+        "wallet": 0,
+        "cart": []
+    },
+    "nikan": {
+        "password": "nikan123",
+        "wallet": 0,
+        "cart": []
+    }
+}
+def shop_list():
+    print("===== Nikan Shop =====")
+    print("1. Show the items")
+    print("2. Add item to cart")
+    print("3. View the shopping cart")
+    print("4. Remove item from cart")
+    print("5. Wallet")
+    print("6. Add money to wallet")
+    print("7. Buy")
+    print("8. search the item")
+    print("9.exit")
+
+def show_store_items(item_list):
+    print(f'{"ID":<4}{"Price":<8}{"Category":<15}{"Name":<20}{"Stock"}')
+    print("-" * 55)
+
+    for item in item_list:
+        print(f'{item["id"]:<4}{item["price"]:<8}{item["category"]:<15}{item["name"]:<20}{item["stock"]}')
+
+
+def add_items_to_cart(product_list):
+    entry = input("ID : ")
+
+    if not entry.isnumeric():
+        return None
+
+    for item in product_list:
+        if item["id"] == int(entry):
+            return item
+
+    return None
+
+
+def remove_items_from_cart(cart_list):
+    if not cart_list:
+        print("Cart is empty.")
+        return
+
+    item_id = input("Enter item id: ")
+
+    if not item_id.isnumeric():
+        print("Invalid input.")
+        return
+
+    for item in cart_list:
+        if item["id"] == int(item_id):
+            cart_list.remove(item)
+            print("Item removed.")
+            return
+
+    print("Item not found.")
+
+
+def display_item(title, item_list):
+    total = 0
+
+    print(f"\n===== {title} =====")
+
+    if not item_list:
+        print("No item right here")
+    else:
+        print(f'{"ID":<4}{"Price":<8}{"Category":<15}{"Name":<20}{"Stock"}')
+        print("-" * 45)
+
+        for item in item_list:
+            total += item["price"]
+            print(f'{item["id"]:<4}{item["price"]:<8}{item["category"]:<15}{item["name"]}{item["stock"]:<16}')
+
+    return total
+
+
+def save_data(wallet, cart_list, shop_product_lists, users, username):
+    users[username]["wallet"] = wallet
+    users[username]["cart"] = cart_list
+
+    data = {
+        "shop": shop_product_lists,
+        "users": users
+    }
+
+    with open("save.json", "w") as file:
+        json.dump(data, file)
+def load_data():
+    try:
+        with open("save.json", "r") as file:
+            data = json.load(file)
+
+        return (
+            data.get("wallet", 0),
+            data.get("cart", []),
+            data.get("shop", shop_product_lists),
+            data.get("users", default_users)
+)
+
+    except:
+        return 0, [], shop_product_lists, default_users
+        
+def search_item(shop_product_lists):
+    user = input("please type your product: ")
+    
+    for item in shop_product_lists:
+        if user.lower() in item["name"].lower():
+            print(item)
+
+    if username not in user:
+        print("User not found!")
+    exit()
+
+password = ""
+
+############## main part ###########
+
+
+shop_product_lists = [
+    {'id': 1, 'name': 'hub', 'price': 10, 'category': 'Accessories', 'stock': 15},
+    {'id': 2, 'name': 'keyboard', 'price': 50, 'category': 'Accessories', 'stock': 10},
+    {'id': 3, 'name': 'mouse', 'price': 25, 'category': 'Accessories', 'stock': 20},
+    {'id': 4, 'name': 'gaming laptop', 'price': 1200, 'category': 'Computers', 'stock': 3},
+    {'id': 5, 'name': 'headphone', 'price': 80, 'category': 'Audio', 'stock': 8},
+    {'id': 6, 'name': 'monitor', 'price': 300, 'category': 'Displays', 'stock': 6},
+    {'id': 7, 'name': 'usb cable', 'price': 15, 'category': 'Accessories', 'stock': 30},
+    {'id': 8, 'name': 'phone', 'price': 600, 'category': 'Mobile', 'stock': 5},
+    {'id': 9, 'name': 'charger', 'price': 30, 'category': 'Accessories', 'stock': 25},
+    {'id': 10, 'name': 'power bank', 'price': 70, 'category': 'Accessories', 'stock': 12},
+    {'id': 11, 'name': 'webcam', 'price': 90, 'category': 'Accessories', 'stock': 7},
+    {'id': 12, 'name': 'microphone', 'price': 150, 'category': 'Audio', 'stock': 4},
+    {'id': 13, 'name': 'speaker', 'price': 110, 'category': 'Audio', 'stock': 9},
+    {'id': 14, 'name': 'flash memory', 'price': 20, 'category': 'Storage', 'stock': 40},
+    {'id': 15, 'name': 'hard disk', 'price': 100, 'category': 'Storage', 'stock': 10},
+    {'id': 16, 'name': 'ssd', 'price': 130, 'category': 'Storage', 'stock': 11},
+    {'id': 17, 'name': 'cooling pad', 'price': 60, 'category': 'Accessories', 'stock': 13},
+    {'id': 18, 'name': 'game controller', 'price': 75, 'category': 'Gaming', 'stock': 14},
+    {'id': 19, 'name': 'printer', 'price': 250, 'category': 'Office', 'stock': 2},
+    {'id': 20, 'name': 'Galaxy A12', 'price': 500, 'category': 'Mobile', 'stock': 5},
+    {'id': 21, 'name': 'iPhone 13', 'price': 900, 'category': 'Mobile', 'stock': 3},
+    {'id': 22, 'name': 'Galaxy Buds', 'price': 120, 'category': 'Audio', 'stock': 8},
+    {'id': 23, 'name': 'gaming mouse', 'price': 45, 'category': 'Gaming', 'stock': 16},
+    {'id': 24, 'name': 'mechanical keyboard', 'price': 95, 'category': 'Gaming', 'stock': 7},
+    {'id': 25, 'name': 'router', 'price': 85, 'category': 'Networking', 'stock': 9},
+    {'id': 26, 'name': 'wifi adapter', 'price': 35, 'category': 'Networking', 'stock': 18},
+    {'id': 27, 'name': 'tablet', 'price': 350, 'category': 'Mobile', 'stock': 6},
+    {'id': 28, 'name': 'smart watch', 'price': 180, 'category': 'Wearable', 'stock': 10},
+    {'id': 29, 'name': 'HDMI cable', 'price': 18, 'category': 'Accessories', 'stock': 50},
+    {'id': 30, 'name': 'graphics card', 'price': 700, 'category': 'Computers', 'stock': 2}
+]
+
+wallet, cart_list, shop_product_lists, users = load_data()
+
+
+cho = input("do you have an account? [y, n]")
+    
+if cho == "y":
+    username = input("Username: ")
+
+    if username not in users:
+        print("User not found!")
+        exit()
+
+elif cho == "n":
+    username = input("Choose a username: ")
+
+    if username in users:
+        print("This username already exists!")
+        exit()
+
+    password = input("Choose a password: ")
+
+    users[username] = {
+        "password": password,
+        "wallet": 0,
+        "cart": []
+    }
+
+    save_data(wallet, cart_list, shop_product_lists, users, username)
+    print("Account created successfully!")
+
+else:
+    print("Invalid choice!")
+    exit()
+
+password = users[username]["password"]
+wallet = users[username]["wallet"]
+cart_list = users[username]["cart"]
+
+if password is None:
+    print("User not found!")
+    exit()
+
+while True:
+    ch = input("Password: ")
+
+    if ch == password:
+        print(f"Welcome {username}")
+        break
+    else:
+        print("Wrong password")
+while True:                
+    shop_list()
+    c = input("Enter your choice: ")
+
+    if c == "1":
+        show_store_items(shop_product_lists)
+
+    elif c == "2":
+        p = add_items_to_cart(shop_product_lists)
+
+        if p:
+            cart_list.append(p)
+            save_data(wallet, cart_list, shop_product_lists, users, username)
+            print("Product added.")
+        else:
+            print("Not found.")
+
+    elif c == "3":
+       
+        total = display_item("Cart", cart_list)
+        print(f"\nTotal Price: {total}")
+
+    elif c == "4":
+        remove_items_from_cart(cart_list)
+        save_data(wallet, cart_list, shop_product_lists, users, username)
+
+    elif c == "5":
+        print(f"Wallet: {wallet}")
+
+    elif c == "6":
+        amount = input("Enter amount: ")
+
+        if amount.isnumeric():
+            wallet += int(amount)
+            save_data(wallet, cart_list, shop_product_lists, users, username)
+            print("Money added successfully!")
+        else:
+            print("Invalid input.")
+
+    elif c == "7":
+        total = display_item("Cart", cart_list)
+    
+        if total == 0:
+            print("Shopping cart is empty.")
+    
+        elif wallet >= total:
+    
+            # کم کردن موجودی کالا
+            for cart_item in cart_list:
+                for shop_item in shop_product_lists:
+                    if shop_item["id"] == cart_item["id"]:
+                        if shop_item["stock"] > 0:
+                            shop_item["stock"] -= 1
+                            save_data(wallet, cart_list, shop_product_lists, users, username)
+            wallet -= total
+            print("========== Receipt ==========")
+            print("Items:")
+            
+            for cart_item in cart_list:
+                              
+                print(f'{cart_item["name"] : <20}{cart_item["price"]}')
+            
+                print("-" * 30)
+                print(f"Total: {total}")
+            cart_list.clear()
+            save_data(wallet, cart_list, shop_product_lists, users, username)
+    
+
+        else:
+                print("Please add more money to your wallet.")
+    elif c == "8":
+        search_item(shop_product_lists)
+    elif c == "9":
+        print("Goodbye")
+        break
+
+    else:
+        print("Invalid input.")
+        
