@@ -2,6 +2,7 @@
 
 # Facilities
 
+- menu 
 - log In
 - sign in
 - save data with json
@@ -9,6 +10,7 @@
 - add money to wallet
 - cart
 - add item to cart
+- remove item from cart
 - search item
 - recipt
 - stock of item
